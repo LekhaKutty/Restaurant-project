@@ -1,0 +1,5 @@
+INSERT INTO restaurants (name,location,price_range) values ('mchesskjdh d','dfdsddf',4);
+
+UPDATE restaurants SET name = 'subway', location = 'miami', price_range = 2 WHERE id = 4;
+
+DELETE FROM restaurants WHERE id = 3;
