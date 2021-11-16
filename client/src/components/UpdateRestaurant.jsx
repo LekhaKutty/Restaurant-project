@@ -1,15 +1,15 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import RestaurantFinder from '../apis/RestaurantFinder';
-import { RestaurantsContext } from '../context/RestaurantsContext';
+//import { RestaurantsContext } from '../context/RestaurantsContext';
 import {useNavigate} from "react-router-dom";
 
 const UpdateRestaurant = () => {
 
     let navigate = useNavigate();
-    const {id} = useParams()
-    console.log(id);
-    const {restaurants} = useContext(RestaurantsContext);
+    const {id} = useParams();
+    //console.log(id);
+    //const {restaurants} = useContext(RestaurantsContext);
     const [name, setName] = useState("");
     const [location, setLocation] = useState("");
     const [priceRange, setPriceRange] = useState("");
@@ -19,7 +19,7 @@ const UpdateRestaurant = () => {
         const fetchData = async () => {
             try{
                 const response = await RestaurantFinder.get(`/${id}`);
-                console.log(response.data.data);
+                //console.log(response.data.data);
                 setName(response.data.data.restaurants.name);
                 setLocation(response.data.data.restaurants.location);
                 setPriceRange(response.data.data.restaurants.price_range);
@@ -33,14 +33,13 @@ const UpdateRestaurant = () => {
 
     const handleUpdateSubmit =async (e) =>{
         e.preventDefault()
-        console.log("submit");
         try { 
                 const updatedRestaurant = await RestaurantFinder.put(`/${id}`,{
                 name: name,
                 location: location,
                 price_range:priceRange
             });
-            //console.log(updatedRestaurant);
+            console.log(updatedRestaurant);
             navigate("/");
         }catch(err) {
             console.log(err)

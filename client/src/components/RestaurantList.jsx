@@ -20,8 +20,9 @@ const RestaurantList = (props) => {
         fetchDataUpdate();
     },[]);
     //function calling while click on Delete button
-    const handleDelete = async (id) => {
+    const handleDelete = async (e, id) => {
         //console.log(id);
+        e.stopPropagation();
         try{
             const response = await RestaurantFinder.delete(`/${id}`);
             //console.log(response);
@@ -34,14 +35,24 @@ const RestaurantList = (props) => {
         }
     }
     //function calling while clicking on Update button
-    const handleUpdate = async (id) => {
-        console.log(id)
+    const handleUpdate = async (e, id) => {
+        console.log(id);
+        e.stopPropagation();
         try{
             //direct to update page
             navigate(`/restaurants/${id}/update`)
             const response = await RestaurantFinder.put(`/${id}`);
 
         } catch(err) {
+            console.log(err);
+        }
+    }
+    //function calling while clicking on each row
+    const handleRestaurantSelect = async (id) => {
+        console.log(id);
+        try{
+            navigate(`/restaurants/${id}`);
+        }catch(err){
             console.log(err);
         }
     }
@@ -63,13 +74,13 @@ const RestaurantList = (props) => {
                     {
                        restaurants && restaurants.map(restaurant => {
                         return(
-                            <tr key={restaurant.id}>
+                            <tr onClick={() => handleRestaurantSelect(restaurant.id)} key={restaurant.id}>
                                 <td>{restaurant.name}</td>
                                 <td>{restaurant.location}</td>
                                 <td>{"$".repeat(restaurant.price_range)}</td>
                                 <td>reviews</td>
-                                <td><button onClick={() => handleUpdate(restaurant.id)} className="btn btn-warning">Update</button></td>
-                                <td><button onClick={() => handleDelete(restaurant.id)} className="btn btn-danger">Delete</button></td>
+                                <td><button onClick={(e) => handleUpdate(e, restaurant.id)} className="btn btn-warning">Update</button></td>
+                                <td><button onClick={(e) => handleDelete(e, restaurant.id)} className="btn btn-danger">Delete</button></td>
                             </tr>
                         )
                         
