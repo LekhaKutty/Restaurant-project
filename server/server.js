@@ -42,14 +42,17 @@ app.get("/api/v1/restaurants/:id",async (req,res) => {
     console.log(req.params.id);
     try
     {
-        const results = await db.query(
+        const restaurant = await db.query(
             "SELECT * FROM restaurants WHERE id = $1",[req.params.id]);
-        //console.log(results.rows[0]);
+        //console.log(restaurant.rows[0]);
+        const reviewsArray = await db.query(
+            "SELECT * FROM reviews WHERE restaurant_id = $1",[req.params.id]);
+        console.log(reviewsArray.rows[0]);
         res.status(200).json({
             status: "success",
-            results: results.rows.length,
             data: {
-                restaurants: results.rows[0],
+                restaurants: restaurant.rows[0],
+                reviews:reviewsArray.rows
             },
         });
 
@@ -59,6 +62,11 @@ app.get("/api/v1/restaurants/:id",async (req,res) => {
         console.log(err);
     }
 });
+
+//get review of each restaurant
+/*app.get("/api/v1/restaurants/:id/reviews", async (req,res) => {
+
+})*/
 
 //Create a Reataurant
 app.post("/api/v1/restaurants",async (req,res) => {
@@ -123,6 +131,7 @@ app.delete("/api/v1/restaurants/:id",async (req,res)=>{
         console.log(err);
     }
 });
+
 const port = 3001;
 app.listen(port, () => {
     console.log(`server is up and listening on port ${port}`);
