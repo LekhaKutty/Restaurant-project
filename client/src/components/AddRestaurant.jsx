@@ -11,7 +11,8 @@ const AddRestaurant = () => {
     const [priceRange, setPriceRange] = useState("Price range")
    
     const handleSubmit =async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        //console.log("err");
         try {
             const response = await RestaurantFinder.post("/",{
                 name: name,
@@ -19,15 +20,15 @@ const AddRestaurant = () => {
                 price_range: priceRange,
 
             })
-            console.log(response.data.data.restaurant);
-            addRestaurants(response);
+            console.log(response.data.data.restaurants);
+            addRestaurants(response.data.data.restaurants);
         } catch(err) {
             console.log(err)
         }
     }
     return (
         <div className="mb-4">
-            <form action="">
+            <form onSubmit={handleSubmit}>
                 <div className="form-row">
                     <div className="col">
                         <input value={name} onChange={e => setName(e.target.value)} type="text" className="form-control" placeholder="name"/>
@@ -46,7 +47,8 @@ const AddRestaurant = () => {
                             <option value="5">$$$$$</option>                         
                         </select>
                     </div>
-                    <button onClick={handleSubmit} type="submit" className="btn-primary">ADD</button>
+                    
+                    <button type="submit" className="btn-primary">ADD</button>
                 </div>
             </form>
         </div>

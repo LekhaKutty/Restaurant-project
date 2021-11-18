@@ -11,6 +11,10 @@ export const RestaurantsContextProvider = props => {
     const addRestaurants = (restaurant) => {
         setRestaurants([...restaurants, restaurant]);
     };
+    /*const addSelectedRestaurants = (selectedRestaurant) => {
+        setSelectedRestaurants([...selectedRestaurants, selectedRestaurant]);
+    };*/
+
 
     return(
         <RestaurantsContext.Provider value = {{

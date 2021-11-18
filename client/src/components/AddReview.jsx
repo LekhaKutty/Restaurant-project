@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useLocation, useParams ,useNavigate} from 'react-router-dom';
 import RestaurantFinder from '../apis/RestaurantFinder';
+import { RestaurantsContext } from '../context/RestaurantsContext';
 
 export const AddReview = () => {
 
@@ -10,15 +11,28 @@ export const AddReview = () => {
     const [rating, setRating] = useState("Rating");
     const [review, setReview] = useState("");
 
+    let navigate = useNavigate();
+    let location = useLocation();
+    
+    let { from } = location.pathname;
+    //console.log(location.key);
     const handleSubmitReview = async (e) => {
         e.preventDefault();
-        const newReview = await RestaurantFinder.post(`/${id}/addReview`,{
-            name,
-            rating,
-            review
-        })
+        try{
+            const newReview = await RestaurantFinder.post(`/${id}/addReview`,{
+                name,
+                rating,
+                review
+            });
+            navigate("/");
+            navigate(`/restaurants/${id}`);
+           
+            //console.log(newReview);
 
-        console.log(newReview);
+        }catch(err){
+            console.log(err);
+        }
+        
     }
 
 
